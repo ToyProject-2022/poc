@@ -15,10 +15,14 @@ export default {
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
-  css: ['normalize.css', { src: '@/styles/reset.scss', lang: 'scss' }],
+  css: [
+    'normalize.css',
+    { src: '@/styles/reset.scss', lang: 'scss' },
+    'element-ui/lib/theme-chalk/index.css',
+  ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [],
+  plugins: [{ src: '@/plugins/element-ui' }],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: {
@@ -35,5 +39,7 @@ export default {
   modules: [],
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
-  build: {},
+  build: {
+    transpile: [/^element-ui/],
+  },
 }
