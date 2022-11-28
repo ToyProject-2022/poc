@@ -4,6 +4,7 @@
       ref="input"
       class="input"
       v-bind="$attrs"
+      required
       @input="$emit('input', $event.target.value)"
     />
     <label class="label">{{ label }}</label>
@@ -27,6 +28,10 @@ export default {
       type: String,
       default: '',
     },
+    disabled: {
+      type: Boolean,
+      default: false,
+    },
   },
   computed: {},
   watch: {},
@@ -35,26 +40,22 @@ export default {
 }
 </script>
 <style lang="scss">
-$primary: #11998e;
-$secondary: #38ef7d;
-$white: #fff;
-$gray: #9b9b9b;
 .input-wrap {
   position: relative;
-  padding: 15px 0 0;
-  margin-top: 10px;
-  width: 50%;
+  padding: 24px 0 0;
+  width: 100%;
 }
 
 .input {
-  font-family: inherit;
+  position: relative;
+  z-index: 2;
   width: 100%;
   border: 0;
-  border-bottom: 2px solid $gray;
+  border-bottom: 2px solid #9b9b9b;
   outline: 0;
-  font-size: 1.3rem;
+  font-size: 16px;
   color: #333;
-  padding: 7px 0;
+  padding: 8px 0;
   background: transparent;
   transition: border-color 0.2s;
 
@@ -63,7 +64,7 @@ $gray: #9b9b9b;
   }
 
   &:placeholder-shown ~ .label {
-    font-size: 1.3rem;
+    font-size: 16px;
     cursor: text;
     top: 20px;
   }
@@ -74,8 +75,9 @@ $gray: #9b9b9b;
   top: 0;
   display: block;
   transition: 0.2s;
-  font-size: 1rem;
-  color: $gray;
+  font-size: 14px;
+  color: #9b9b9b;
+  z-index: 1;
 }
 
 .input:focus {
@@ -85,42 +87,12 @@ $gray: #9b9b9b;
     display: block;
     transition: 0.2s;
     font-size: 1rem;
-    color: $primary;
+    color: #4f64bc;
     font-weight: 700;
   }
-  padding-bottom: 6px;
   font-weight: 700;
-  border-width: 3px;
-  border-image: linear-gradient(to right, $primary, $secondary);
+  border-width: 2px;
+  border-image: linear-gradient(to right, #4f64bc, #a7afcf);
   border-image-slice: 1;
 }
-/* reset input */
-.input {
-  &:required,
-  &:invalid {
-    box-shadow: none;
-  }
-}
-/* demo */
-//
-//.input {
-//  .label {
-//    display: block;
-//    font-size: 16px;
-//    font-weight: bold;
-//    margin-bottom: 8px;
-//  }
-//  .input {
-//    display: block;
-//    width: 100%;
-//    color: #333;
-//    outline: transparent;
-//    border-radius: 5px;
-//    background-color: #fff;
-//    border: transparent;
-//    font-size: 14px;
-//    box-sizing: border-box;
-//    overflow: hidden;
-//  }
-//}
 </style>
