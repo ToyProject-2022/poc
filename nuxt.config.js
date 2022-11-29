@@ -2,27 +2,28 @@ export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     title: 'poc-nuxt',
-    htmlAttrs: {
-      lang: 'en',
+    server: {
+      host: '0.0.0.0',
+      port: 3200,
     },
     meta: [
-      { charset: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: '' },
-      { name: 'format-detection', content: 'telephone=no' },
+      {charset: 'utf-8'},
+      {name: 'viewport', content: 'width=device-width, initial-scale=1'},
+      {hid: 'description', name: 'description', content: ''},
+      {name: 'format-detection', content: 'telephone=no'},
     ],
-    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
+    link: [{rel: 'icon', type: 'image/x-icon', href: '/favicon.ico'}],
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
     'normalize.css',
-    { src: '@/styles/reset.scss', lang: 'scss' },
+    {src: '@/styles/reset.scss', lang: 'scss'},
     'element-ui/lib/theme-chalk/index.css',
   ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [{ src: '@/plugins/element-ui' }],
+  plugins: [{src: '@/plugins/element-ui'}],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: {
