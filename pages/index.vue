@@ -1,7 +1,7 @@
 <template>
   <div class="wrapper">
     <div class="poc-card">
-      <h1>POC TOY PROJECT - 2022</h1>
+      <h1>POC TOY PROJECT - 2022 빌드테스트</h1>
       <div class="link-wrap">
         <span><nuxt-link to="auth/login">로그인</nuxt-link></span>
         <span><nuxt-link to="auth/join">회원가입</nuxt-link></span>
