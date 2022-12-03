@@ -1,11 +1,12 @@
 <template>
-  <div class="wrapper">
+  <div class="app">
     <nuxt />
   </div>
 </template>
 
 <script>
 export default {
-  name: 'IndexLayout',
+  name: 'AdminLayouts',
+  methods: {},
 }
 </script>

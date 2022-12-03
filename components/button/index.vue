@@ -39,11 +39,16 @@ export default {
     color: #ffffff;
     border: 1px solid #6174c3;
   }
+  &.gray {
+    background-color: white;
+    color: #333;
+    border: 1px solid grey;
+  }
   &:hover {
-    background-color: #4f64bc;
+    opacity: 0.6;
   }
-  &:active {
-    background-color: #374682;
-  }
+  //&:active {
+  //  background-color: #374682;
+  //}
 }
 </style>

@@ -86,7 +86,6 @@ export default {
     top: 0;
     display: block;
     transition: 0.2s;
-    font-size: 1rem;
     color: #4f64bc;
     font-weight: 700;
   }
