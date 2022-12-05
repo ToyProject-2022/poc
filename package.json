@@ -18,6 +18,7 @@
     "element-ui": "^2.15.6",
     "normalize.css": "^8.0.1",
     "nuxt": "^2.15.8",
+    "vee-validate": "^3.4.14",
     "vue": "^2.7.10",
     "vue-server-renderer": "^2.7.10",
     "vue-template-compiler": "^2.7.10"

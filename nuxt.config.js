@@ -15,7 +15,10 @@ export default {
   css: ['normalize.css', {src: '@/styles/reset.scss', lang: 'scss'}, 'element-ui/lib/theme-chalk/index.css',],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [{ src: '@/plugins/element-ui' }],
+  plugins: [
+    { src: '@/plugins/element-ui' },
+    { src: '@/plugins/validation', ssr: true },
+  ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: {
@@ -31,6 +34,6 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
-    transpile: [/^element-ui/],
+    transpile: [/^element-ui/, 'vee-validate/dist/rules'],
   },
 }

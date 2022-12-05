@@ -1,19 +1,26 @@
 .front-container {
   width: 100%;
   height: 100vh;
+  min-width: 280px;
+  max-width: 768px;
+  position: absolute;
+  top:0;
+  bottom:0;
+  left:50%;
+  transform: translateX(-50%);
   background-color: #4f64bc;
-  @include mobile {
-    background-color: mediumslateblue;
-  }
-  @include tablet {
-    background-color: aqua;
-  }
-  @include laptop {
-    background-color: bisque;
-  }
-  @include desktop {
-    background-color: greenyellow;
-  }
+  //@include mobile {
+  //  background-color: mediumslateblue;
+  //}
+  //@include tablet {
+  //  background-color: aqua;
+  //}
+  //@include laptop {
+  //  background-color: bisque;
+  //}
+  //@include desktop {
+  //  background-color: gainsboro;
+  //}
 }
 
 
