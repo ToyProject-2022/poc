@@ -53,7 +53,7 @@ export default {
   },
   methods: {
     handleClickApiTest() {
-      fetch('http://13.124.73.181:8081/api/test').then((res) => {
+      fetch('/v1/api/test').then((res) => {
         // eslint-disable-next-line no-console
         console.log('apiTest Success :: ', res)
         this.test = res.json()
