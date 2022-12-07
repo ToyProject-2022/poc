@@ -6,8 +6,8 @@
         <span><nuxt-link to="auth/login">로그인</nuxt-link></span>
         <span><nuxt-link to="auth/join">회원가입</nuxt-link></span>
       </div>
-      <br />
-      <br />
+      <br/>
+      <br/>
       <poc-input
         v-model="id"
         type="text"
@@ -15,7 +15,7 @@
         placeholder="아이디"
         required
       />
-      <br />
+      <br/>
       <poc-input
         v-model="password"
         type="password"
@@ -27,22 +27,43 @@
         <poc-button>로그인</poc-button>
       </div>
     </div>
+    <div class="poc-card" style="margin-top: 16px">
+      <div class="link-wrap">
+        {{ test }}
+      </div>
+      <poc-button @click="handleClickApiTest">API TEST</poc-button>
+    </div>
   </div>
 </template>
 
 <script>
 import PocInput from '@/components/input'
 import PocButton from '@/components/button'
+
 export default {
   name: 'IndexPage',
-  components: { PocButton, PocInput },
+  components: {PocButton, PocInput},
   layouts: 'IndexLayout',
   data() {
     return {
       id: '',
       password: '',
+      test: '',
     }
   },
+  methods: {
+    handleClickApiTest() {
+      fetch('http://13.124.73.181/api/test').then((res) => {
+        // eslint-disable-next-line no-console
+        console.log('apiTest Success :: ', res)
+        this.test = res.json()
+      }).catch((error) => {
+        // eslint-disable-next-line no-console
+        console.error('apiTest error :: ', error)
+        this.test = 'error'
+      })
+    }
+  }
 }
 </script>
 <style lang="scss" scoped>
@@ -51,6 +72,7 @@ export default {
   background-color: #272e4e;
   padding: 40px;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
 }
@@ -61,6 +83,7 @@ export default {
   border-radius: 8px;
   padding: 24px;
 }
+
 .button-wrap {
   display: flex;
   align-items: center;
