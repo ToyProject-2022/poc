@@ -1,8 +1,7 @@
 <template>
   <div class="wrapper">
     <div class="poc-card">
-      <h1>POC TOY PROJECT - 2022 빌드테스트</h1>
-      <h1 class="font-size-32">POC TOY PROJECT - 2022</h1>
+      <h1 class="font-size-32">POC TOY PROJECT - 2022 빌드테스트</h1>
       <div class="link-wrap">
         <!--        <span><nuxt-link to="admin">Admin</nuxt-link></span>-->
         <poc-button @click="pageMove('admin')"> admin </poc-button>
@@ -50,17 +49,19 @@ export default {
       this.$router.push(path)
     },
     handleClickApiTest() {
-      fetch('/v1/api/test').then((res) => {
-        // eslint-disable-next-line no-console
-        console.log('apiTest Success :: ', res)
-        this.test = res.json()
-      }).catch((error) => {
-        // eslint-disable-next-line no-console
-        console.error('apiTest error :: ', error)
-        this.test = 'error'
-      })
-    }
-  }
+      fetch('/v1/api/test')
+        .then((res) => {
+          // eslint-disable-next-line no-console
+          console.log('apiTest Success :: ', res)
+          this.test = res.json()
+        })
+        .catch((error) => {
+          // eslint-disable-next-line no-console
+          console.error('apiTest error :: ', error)
+          this.test = 'error'
+        })
+    },
+  },
 }
 </script>
 <style lang="scss" scoped>
@@ -81,7 +82,6 @@ export default {
   padding: 24px;
   text-align: center;
 }
-.link-wrap {
 
 .button-wrap {
   display: flex;

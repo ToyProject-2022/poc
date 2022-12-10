@@ -1,6 +1,6 @@
 <template>
   <div class="app">
-    <div class="front-conteiner">
+    <div class="front-container">
       <nuxt />
     </div>
   </div>
