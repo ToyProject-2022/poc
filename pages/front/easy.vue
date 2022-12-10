@@ -1,7 +1,6 @@
 <template>
   <div class="easy-container">
-    <poc-canvas />
-
+    <poc-canvas :color="colors" />
     <client-only>
       <chrome-picker :value="colors" class="colorPicker" @input="updateValue" />
     </client-only>
@@ -78,9 +77,8 @@ export default {
   },
   methods: {
     updateValue(val) {
-      // console.log(val)
+      this.colors = val.hex
     },
-    setSelected() {},
   },
 }
 </script>
