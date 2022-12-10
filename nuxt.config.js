@@ -32,6 +32,7 @@ export default {
   plugins: [
     { src: '@/plugins/element-ui' },
     { src: '@/plugins/validation', ssr: true },
+    { src: '@/plugins/color-picker', mode: 'client' },
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
