@@ -18,3 +18,9 @@ export async function exportElementToImage(download_type, file_name, target_elem
     fs.saveAs(blob, `${file_name}.${download_type}`)
   })
 }
+
+export default (context, inject) => {
+  inject('_canvas', {
+    _exportElementToImage: exportElementToImage,
+  })
+}

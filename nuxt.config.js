@@ -17,14 +17,6 @@ export default {
     ],
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
   },
-  axios: {
-    proxy: true,
-    progress: false,
-    prefix: '/v1',
-  },
-  proxy: {
-    '/v1': { target: 'http://13.124.73.181:8081', pathRewrite: { '^/v1': '' } },
-  },
   css: [
     'normalize.css',
     { src: '@/styles/import.scss', lang: 'scss' },
@@ -34,6 +26,9 @@ export default {
     { src: '@/plugins/element-ui' },
     { src: '@/plugins/validation', ssr: true },
     { src: '@/plugins/color-picker', mode: 'client' },
+    { src: '@/plugins/inject/_copy', mode: 'client' },
+    { src: '@/plugins/inject/_canvas', mode: 'client' },
+    { src: '@/plugins/inject/_axios' },
   ],
   components: {
     path: '~/components',
@@ -43,9 +38,17 @@ export default {
     defaultLocale: 'ko',
     plugins: ['advancedFormat'],
   },
+  axios: {
+    proxy: true,
+    progress: false,
+    prefix: '/v1',
+  },
+  proxy: {
+    '/v1': { target: 'http://13.124.73.181:8081', pathRewrite: { '^/v1': '' } },
+  },
   loading: true,
+  modules: ['@nuxtjs/proxy', '@nuxtjs/axios', '@nuxtjs/dayjs'],
   buildModules: ['@nuxtjs/eslint-module', '@nuxt/postcss8'],
-  modules: ['@nuxtjs/proxy'],
   build: {
     postcss: {
       preset: {

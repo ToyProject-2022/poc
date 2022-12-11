@@ -5,26 +5,40 @@
       <div class="link-wrap">
         <!--        <span><nuxt-link to="admin">Admin</nuxt-link></span>-->
         <poc-button @click="pageMove('admin')"> admin </poc-button>
-        <poc-button color="gray" class="mg-l-6" @click="pageMove('front/btte')">
-          원경
-        </poc-button>
-        <poc-button
-          color="gray"
-          class="mg-l-6"
-          @click="pageMove('front/oneway')"
-        >
+        <poc-button color="gray" class="mg-l-6" @click="pageMove('front/btte')"> 원경 </poc-button>
+        <poc-button color="gray" class="mg-l-6" @click="pageMove('front/oneway')">
           도걸
         </poc-button>
-        <poc-button color="gray" class="mg-l-6" @click="pageMove('front/easy')">
-          지현
-        </poc-button>
+        <poc-button color="gray" class="mg-l-6" @click="pageMove('front/easy')"> 지현 </poc-button>
       </div>
+    </div>
+    <div ref="test" class="test mg-y-8">
+      <img src="~assets/eye.png" alt="1" style="position: absolute; z-index: 20; top: 0; left: 0" />
+      <img
+        src="~assets/face.png"
+        alt="2"
+        style="position: absolute; z-index: 10; top: 0; left: 0"
+      />
+      <img
+        src="~assets/mouse.png"
+        alt="2"
+        style="position: absolute; z-index: 20; top: 0; left: 0"
+      />
+      <img
+        src="~assets/nose.png"
+        alt="2"
+        style="position: absolute; z-index: 20; top: 0; left: 0"
+      />
     </div>
     <div class="poc-card" style="margin-top: 16px">
       <div class="link-wrap">
         {{ test }}
       </div>
+      <div>
+        {{ $dayjs() }}
+      </div>
       <poc-button @click="handleClickApiTest">API TEST</poc-button>
+      <poc-button @click="handleClickExportImage">CANVAS TEST</poc-button>
     </div>
   </div>
 </template>
@@ -49,17 +63,19 @@ export default {
       this.$router.push(path)
     },
     handleClickApiTest() {
-      fetch('/v1/api/test')
+      this.$_axios
+        .$get('/api/test')
         .then((res) => {
-          // eslint-disable-next-line no-console
           console.log('apiTest Success :: ', res)
-          this.test = res.json()
+          this.test = this.$_copy(res)
         })
         .catch((error) => {
-          // eslint-disable-next-line no-console
           console.error('apiTest error :: ', error)
           this.test = 'error'
         })
+    },
+    handleClickExportImage() {
+      this.$_canvas._exportElementToImage('png', 'test', this.$refs.test)
     },
   },
 }
@@ -88,5 +104,18 @@ export default {
   align-items: center;
   justify-content: center;
   margin-top: 24px;
+}
+.test {
+  position: relative;
+  width: 200px;
+  height: 200px;
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 24px;
+  text-align: center;
+  > img {
+    width: 100%;
+    height: auto;
+  }
 }
 </style>
