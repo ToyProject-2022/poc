@@ -26,9 +26,11 @@ export default {
     { src: '@/plugins/element-ui' },
     { src: '@/plugins/validation', ssr: true },
     { src: '@/plugins/color-picker', mode: 'client' },
-    { src: '@/plugins/inject/_copy', mode: 'client' },
     { src: '@/plugins/inject/_canvas', mode: 'client' },
+    { src: '@/plugins/inject/_cookie' },
+    { src: '@/plugins/inject/_copy' },
     { src: '@/plugins/inject/_axios' },
+    { src: '@/plugins/inject/_auth' },
   ],
   components: {
     path: '~/components',
@@ -47,6 +49,16 @@ export default {
     '/v1': { target: 'http://13.124.73.181:8081', pathRewrite: { '^/v1': '' } },
   },
   loading: true,
+  router: {
+    middleware: ['routing'],
+    extendRoutes(routes) {
+      routes.push({
+        hidden: true,
+        path: '/redirect/:path*',
+        component: '@/pages/redirect.vue',
+      })
+    },
+  },
   modules: ['@nuxtjs/proxy', '@nuxtjs/axios', '@nuxtjs/dayjs'],
   buildModules: ['@nuxtjs/eslint-module', '@nuxt/postcss8'],
   build: {
