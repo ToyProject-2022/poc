@@ -1,3 +1,7 @@
 export default () => ({
-  expires: 0,
+  member: {
+    member_id: null,
+    email: null,
+    expires: 0,
+  },
 })

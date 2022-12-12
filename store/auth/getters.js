@@ -1,5 +1,5 @@
 export default {
-  expires(state) {
-    return state.expires
+  member(state) {
+    return state.member
   },
 }

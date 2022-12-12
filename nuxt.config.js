@@ -50,7 +50,7 @@ export default {
   },
   loading: true,
   router: {
-    middleware: ['routing'],
+    middleware: ['admin'],
     extendRoutes(routes) {
       routes.push({
         hidden: true,

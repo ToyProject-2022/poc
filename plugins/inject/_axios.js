@@ -31,7 +31,11 @@ export default ({ $axios, store }, inject) => {
   _axios.onError((error) => {
     store._vm.$nuxt.$loading.finish()
     if (error && error.response) {
-      return Promise.resolve(error.response)
+      if (error.response.status === 400) {
+        return Promise.resolve(false)
+      } else {
+        return Promise.resolve(error.response)
+      }
     } else {
       // 네트웍 에러, cors 에러 등
       return Promise.resolve(false)
