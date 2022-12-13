@@ -42,14 +42,19 @@
                 label="비밀번호"
                 placeholder="비밀번호"
                 show-password
+                @keyup.enter="handleSubmit"
               />
             </el-form-item>
           </el-form>
         </el-col>
       </el-row>
-      <el-row type="flex" align="middle" justify="space-between">
-        <el-button @click="$router.push('/admin/join')">회원가입</el-button>
-        <el-button type="primary" @click="handleSubmit">로그인</el-button>
+      <el-row>
+        <el-col>
+          <el-button class="width-full" type="primary" @click="handleSubmit">로그인</el-button>
+        </el-col>
+        <el-col class="mg-t-16 text-center">
+          <el-link @click="$router.push('/admin/join')">회원가입</el-link>
+        </el-col>
       </el-row>
     </el-card>
   </div>
@@ -59,7 +64,7 @@
 import { validEmail, validPassword } from '~/utils/validate'
 
 export default {
-  name: 'AdminIndex',
+  name: 'PagesAdminLogin',
   layout: 'admin',
   data() {
     return {
@@ -96,7 +101,21 @@ export default {
       if (this.validateCheck()) {
         const result = await this.$_auth._login(this.form.email, this.form.password)
         if (!result) {
-          alert('회원정보를 확인 하세요')
+          this.$message.closeAll()
+          this.$message({
+            showClose: true,
+            message: '회원정보를 확인 하세요',
+            type: 'error',
+            duration: 3000,
+          })
+        } else {
+          this.$message.closeAll()
+          this.$message({
+            showClose: true,
+            message: '로그인 성공',
+            type: 'success',
+            duration: 3000,
+          })
         }
       }
     },

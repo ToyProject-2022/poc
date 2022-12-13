@@ -3,7 +3,9 @@
     <el-card class="width-500">
       <el-row>
         <el-col>
-          <nuxt-link to="login"><i class="el-icon-arrow-left" />뒤로가기</nuxt-link>
+          <el-link icon="el-icon-arrow-left" @click="$router.push('/admin/login')"
+            >뒤로가기</el-link
+          >
         </el-col>
       </el-row>
       <el-row>
@@ -49,8 +51,10 @@
           </el-form>
         </el-col>
       </el-row>
-      <el-row type="flex" align="middle" justify="end">
-        <el-button type="primary" @click="handleSubmit">회원가입</el-button>
+      <el-row>
+        <el-col>
+          <el-button class="width-full" type="primary" @click="handleSubmit">회원가입</el-button>
+        </el-col>
       </el-row>
     </el-card>
   </div>
@@ -60,9 +64,9 @@
 import { validEmail, validPassword } from '@/utils/validate'
 
 export default {
-  name: 'AdminIndex',
+  name: 'PagesAdminJoin',
   meta: {
-    is_none_auth: true,
+    isNoneAuth: true,
   },
   layout: 'admin',
   data() {
@@ -98,9 +102,16 @@ export default {
     },
     async handleSubmit() {
       if (this.validateCheck()) {
-        const result = await this.$_axios.$post('/poc/v1/member/', this.form)
+        const result = await this.$_axios.$post('/poc/v1/member', this.form)
         if (result) {
           console.log(result)
+          this.$message.closeAll()
+          this.$message({
+            showClose: true,
+            message: '회원가입이 완료되었습니다',
+            type: 'success',
+            duration: 3000,
+          })
         }
       }
     },

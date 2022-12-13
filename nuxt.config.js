@@ -43,14 +43,13 @@ export default {
   axios: {
     proxy: true,
     progress: false,
-    prefix: '/v1',
+    prefix: '/ajax',
   },
   proxy: {
-    '/v1': { target: 'http://13.124.73.181:8081', pathRewrite: { '^/v1': '' } },
+    '/ajax': { target: 'http://13.124.73.181:8081', pathRewrite: { '^/ajax': '' } },
   },
   loading: true,
   router: {
-    middleware: ['admin'],
     extendRoutes(routes) {
       routes.push({
         hidden: true,

@@ -4,9 +4,9 @@
   min-width: 280px;
   max-width: 768px;
   position: absolute;
-  top:0;
-  bottom:0;
-  left:50%;
+  top: 0;
+  bottom: 0;
+  left: 50%;
   transform: translateX(-50%);
   background-color: #4f64bc;
   //@include mobile {
@@ -23,5 +23,75 @@
   //}
 }
 
+.width-full {
+  width: 100%;
+}
 
+.height-full {
+  height: 100%;
+}
 
+.text {
+  &-left {
+    text-align: left;
+  }
+
+  &-center {
+    text-align: center;
+  }
+
+  &-right {
+    text-align: right;
+  }
+
+}
+
+.flex {
+  display: flex;
+
+  &.x {
+    &-start {
+      justify-content: flex-start;
+    }
+
+    &-center {
+      justify-content: center;
+    }
+
+    &-end {
+      justify-content: flex-end;
+    }
+
+    &-between {
+      justify-content: space-between;
+    }
+  }
+
+  &.y {
+    &-start {
+      align-items: flex-start;
+    }
+
+    &-center {
+      align-items: center;
+    }
+
+    &-end {
+      align-items: flex-end;
+    }
+  }
+
+  &-wrap {
+    flex-wrap: wrap;
+  }
+
+  &-no-wrap {
+    flex-wrap: nowrap;
+  }
+}
+
+.word {
+  &-break-all {
+    word-break: break-all;
+  }
+}

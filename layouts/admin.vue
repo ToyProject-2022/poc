@@ -1,6 +1,5 @@
 <template>
-  <div v-if="is_first_loading" class="app">
-    {{ is_first_loading }}
+  <div v-if="is_first_loading" class="admin">
     <nuxt />
   </div>
 </template>
@@ -14,10 +13,10 @@ export default {
       is_first_loading: 'app/first_loading',
     }),
   },
-  async mounted() {
-    console.log('mounted')
-    await this.$_auth._init()
-    await this.setFirstLoading(true)
+  mounted() {
+    this.$nextTick(() => {
+      this.$_auth._init()
+    })
   },
   methods: {
     ...mapActions({
@@ -26,3 +25,11 @@ export default {
   },
 }
 </script>
+<style lang="scss">
+.admin {
+  min-width: 768px;
+  * {
+    box-sizing: border-box;
+  }
+}
+</style>
