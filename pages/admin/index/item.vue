@@ -48,7 +48,8 @@
               {{ item.originName }}
             </div>
             <div class="button-area mg-t-16">
-              <el-button icon="el-icon-delete" circle />
+              <el-button icon="el-icon-edit-outline" type="primary" circle />
+              <el-button icon="el-icon-delete" type="danger" circle />
             </div>
           </div>
         </el-card>

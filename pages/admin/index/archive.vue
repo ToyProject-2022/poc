@@ -13,9 +13,11 @@
         <el-button type="default" @click="handleToggleEditMode">편집</el-button>
       </template>
       <template v-else>
-        <el-button type="default" @click="handleToggleEditMode">취소</el-button>
-        <el-button type="primary">삭제</el-button>
-        <el-button type="primary">다운로드</el-button>
+        <div>
+          <el-button type="default" @click="handleToggleEditMode">취소</el-button>
+          <el-button type="primary">삭제</el-button>
+          <el-button type="primary">다운로드</el-button>
+        </div>
       </template>
     </el-header>
     <el-main>

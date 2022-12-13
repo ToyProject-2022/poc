@@ -42,7 +42,7 @@
                 label="비밀번호"
                 placeholder="비밀번호"
                 show-password
-                @keyup.enter="handleSubmit"
+                @keyup.enter.native="handleSubmit"
               />
             </el-form-item>
           </el-form>
