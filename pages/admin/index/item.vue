@@ -3,24 +3,26 @@
     <el-header class="flex x-end y-center bg-white">
       <template v-if="!editMode">
         <el-button type="default" @click="handleToggleEditMode">편집</el-button>
-        <el-button type="primary">추가</el-button>
+        <el-button type="primary" @click="handleOpenFormDialog({ title: '아이템' })"
+          >추가</el-button
+        >
       </template>
       <template v-else>
         <el-button type="default" @click="handleToggleEditMode">취소</el-button>
-        <el-button type="primary">삭제</el-button>
+        <el-button type="danger">삭제</el-button>
         <el-button type="primary">이동</el-button>
       </template>
       <el-select
-        v-model="searchFilter.itemCategory"
+        v-model="searchFilter.itemCategoryId"
         class="mg-l-10 width-300"
         :disabled="editMode"
         @change="getListSearch"
       >
         <el-option
           v-for="category in categoryOptions"
-          :key="category.id"
-          :label="category.value"
-          :value="category.type"
+          :key="category.itemCategoryId"
+          :label="`${category.name}`"
+          :value="category.itemCategoryId"
         >
         </el-option>
       </el-select>
@@ -29,8 +31,8 @@
       <div class="flex y-start x-start flex-wrap">
         <button
           v-if="!editMode"
-          :body-style="{ padding: '0px', width: '260px', height: '260px' }"
-          class="mg-x-8 mg-y-8 width-260 height-260 text-center flex x-center y-center item-add"
+          class="mg-x-8 mg-y-8 width-268 height-268 text-center flex x-center y-center item-add"
+          @click="handleOpenFormDialog({ title: '아이템' })"
         >
           <div class="flex x-center y-center height-260">
             <i class="el-icon-plus font-size-40"></i>
@@ -41,26 +43,45 @@
           :key="item.itemId"
           :body-style="{ padding: '0px', width: '260px', height: '260px' }"
           class="mg-x-8 mg-y-8 text-center item"
+          :class="[{ 'is-selected': selectedItem.includes(item.itemId) }]"
+          @click.native="handleClickEditModeCard(item.itemId)"
         >
           <el-image class="width-260 height-260" :src="item.fileUrl" fit="fit"></el-image>
-          <div class="hover-area">
+          <div v-if="!editMode" class="hover-area">
             <div class="pd-x-8 pd-y-8 width-260 text-area">
               {{ item.originName }}
             </div>
             <div class="button-area mg-t-16">
-              <el-button icon="el-icon-edit-outline" type="primary" circle />
+              <el-button
+                icon="el-icon-edit-outline"
+                type="primary"
+                circle
+                @click="handleOpenFormDialog({ title: '아이템', id: item.itemId })"
+              />
               <el-button icon="el-icon-delete" type="danger" circle />
             </div>
           </div>
         </el-card>
       </div>
     </el-main>
+    <component-admin-item-insert
+      :id="formDialog.id"
+      :visible="formDialog.visible"
+      :title="formDialog.title"
+      @handleSubmit="handleSubmitFormDialog"
+      @handleClose="handleCloseFormDialog"
+    >
+      <div></div>
+    </component-admin-item-insert>
   </el-container>
 </template>
 
 <script>
+import ComponentAdminItemInsert from '@/components/admin/item/form.vue'
+
 export default {
   name: 'PagesAdminIndexItem',
+  components: { ComponentAdminItemInsert },
   data() {
     return {
       editMode: false,
@@ -68,26 +89,32 @@ export default {
       totalCount: 0,
       selectedItem: [],
       searchFilter: {
-        itemCategory: '',
+        itemCategoryId: '',
         size: 10,
         page: 1,
       },
-      categoryOptions: [
-        { id: 0, type: '', value: '전체' },
-        { id: 1, type: 'FACE', value: '얼굴' },
-        { id: 2, type: 'HAIR', value: '머리' },
-        { id: 3, type: 'TOP', value: '상의' },
-        { id: 4, type: 'ITEM', value: '아이템' },
-      ],
+      categoryOptions: [],
+      formDialog: {
+        visible: false,
+        id: 0,
+        title: '',
+      },
     }
   },
   created() {
     this.getListSearch()
+    this.getCategory()
   },
   methods: {
-    getListSearch() {
+    getListSearch(val) {
       this.searchFilter.page = 1
       this.getList()
+    },
+    async getCategory() {
+      const result = await this.$_axios.$get('/poc/v1/item-category')
+      if (result) {
+        this.categoryOptions = [{ itemCategoryId: '', name: '전체' }, ...result]
+      }
     },
     async getList() {
       const result = await this.$_axios.$get('/poc/v1/item', {
@@ -118,6 +145,32 @@ export default {
         this.editMode = !this.editMode
       }
     },
+    handleClickEditModeCard(itemId) {
+      if (this.editMode) {
+        if (this.selectedItem.includes(itemId)) {
+          this.selectedItem = this.selectedItem.filter((item) => {
+            return item !== itemId
+          })
+        } else {
+          this.selectedItem.push(itemId)
+        }
+      }
+    },
+    handleOpenFormDialog({ title = '', id = 0 }) {
+      this.formDialog.title = title
+      this.formDialog.id = id
+      this.formDialog.visible = true
+    },
+    handleSubmitFormDialog() {
+      this.handleCloseFormDialog(true)
+    },
+    handleCloseFormDialog(reset) {
+      this.formDialog.visible = false
+      this.formDialog.title = ''
+      if (reset) {
+        this.getListSearch()
+      }
+    },
   },
 }
 </script>
@@ -133,6 +186,25 @@ export default {
 
 .item {
   position: relative;
+  border-width: 4px;
+  border-color: transparent;
+
+  &.is-selected {
+    border-style: solid;
+    border-color: #5ec3b9;
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background-color: #5ec3b9;
+      opacity: 0.4;
+      z-index: 10;
+    }
+  }
 
   &-add {
     position: relative;

@@ -104,12 +104,20 @@ export default {
       if (this.validateCheck()) {
         const result = await this.$_axios.$post('/poc/v1/member', this.form)
         if (result) {
-          console.log(result)
           this.$message.closeAll()
           this.$message({
             showClose: true,
             message: '회원가입이 완료되었습니다',
             type: 'success',
+            duration: 3000,
+          })
+          await this.$router.push('/admin/login')
+        } else {
+          this.$message.closeAll()
+          this.$message({
+            showClose: true,
+            message: '회원가입에 오류가 발생했습니다',
+            type: 'error',
             duration: 3000,
           })
         }
