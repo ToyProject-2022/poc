@@ -15,7 +15,7 @@
       <template v-else>
         <div>
           <el-button type="default" @click="handleToggleEditMode">취소</el-button>
-          <el-button type="primary">삭제</el-button>
+          <el-button type="danger">삭제</el-button>
           <el-button type="primary">다운로드</el-button>
         </div>
       </template>
@@ -25,12 +25,20 @@
         <el-card
           v-for="item in list"
           :key="item.itemId"
-          :body-style="{ padding: '0px' }"
-          class="mg-x-8 mg-y-8 text-center"
+          :body-style="{ padding: '0px', width: '260px', height: '260px' }"
+          class="mg-x-8 mg-y-8 text-center item"
+          :class="[{ 'is-selected': selectedItem.includes(item.itemId) }]"
+          @click.native="handleClickEditModeCard(item.itemId)"
         >
           <el-image class="width-260 height-260" :src="item.fileUrl" fit="fit"></el-image>
-          <div class="pd-x-8 pd-y-8 width-260 text-left word-break-all">
-            {{ item.originName }}
+          <div v-if="!editMode" class="hover-area">
+            <div class="pd-x-8 pd-y-8 width-260 text-area">
+              {{ item.originName }}
+            </div>
+            <div class="button-area mg-t-16">
+              <el-button icon="el-icon-download" type="primary" circle />
+              <el-button icon="el-icon-delete" type="danger" circle />
+            </div>
           </div>
         </el-card>
       </div>
@@ -71,6 +79,7 @@ export default {
       this.getList()
     },
     async getList() {
+      // TODO. archive getList api 필요
       const result = await this.$_axios.$get('/poc/v1/item', {
         params: this.searchFilter,
       })
@@ -99,6 +108,17 @@ export default {
         this.editMode = !this.editMode
       }
     },
+    handleClickEditModeCard(itemId) {
+      if (this.editMode) {
+        if (this.selectedItem.includes(itemId)) {
+          this.selectedItem = this.selectedItem.filter((item) => {
+            return item !== itemId
+          })
+        } else {
+          this.selectedItem.push(itemId)
+        }
+      }
+    },
   },
 }
 </script>
@@ -114,6 +134,25 @@ export default {
 
 .item {
   position: relative;
+  border-width: 4px;
+  border-color: transparent;
+
+  &.is-selected {
+    border-style: solid;
+    border-color: #5ec3b9;
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background-color: #5ec3b9;
+      opacity: 0.4;
+      z-index: 10;
+    }
+  }
 
   &-add {
     position: relative;
