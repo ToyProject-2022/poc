@@ -15,8 +15,15 @@
       <template v-else>
         <div>
           <el-button type="default" @click="handleToggleEditMode">취소</el-button>
-          <el-button type="danger">삭제</el-button>
-          <el-button type="primary">다운로드</el-button>
+          <el-button
+            type="danger"
+            :disabled="selectedItem.length < 1"
+            @click="handleClickDeleteItem"
+            >삭제 ({{ selectedItem.length }})</el-button
+          >
+          <el-button type="primary" :disabled="selectedItem.length < 1"
+            >다운로드 ({{ selectedItem.length }})</el-button
+          >
         </div>
       </template>
     </el-header>
@@ -37,7 +44,12 @@
             </div>
             <div class="button-area mg-t-16">
               <el-button icon="el-icon-download" type="primary" circle />
-              <el-button icon="el-icon-delete" type="danger" circle />
+              <el-button
+                icon="el-icon-delete"
+                type="danger"
+                circle
+                @click="handleClickDeleteItem([item.itemId])"
+              />
             </div>
           </div>
         </el-card>
@@ -118,6 +130,25 @@ export default {
           this.selectedItem.push(itemId)
         }
       }
+    },
+    handleClickDeleteItem(item = []) {
+      this.$confirm(
+        `${item.length > 0 ? '해당 아이템' : '선택된 아이템들'}을 삭제 하시겠습니까?`,
+        '삭제',
+        {
+          confirmButtonText: '삭제',
+          cancelButtonText: '취소',
+          type: 'error',
+        },
+      )
+        .then(() => {
+          if (item.length > 0) {
+            // 아이템 삭제
+          } else {
+            // 멀티 아이템 삭제
+          }
+        })
+        .catch(() => {})
     },
   },
 }

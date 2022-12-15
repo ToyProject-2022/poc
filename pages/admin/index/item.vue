@@ -2,15 +2,23 @@
   <el-container>
     <el-header class="flex x-end y-center bg-white">
       <template v-if="!editMode">
-        <el-button type="default" @click="handleToggleEditMode">편집</el-button>
-        <el-button type="primary" @click="handleOpenFormDialog({ title: '아이템' })"
+        <el-button key="btn_1" type="default" @click="handleToggleEditMode">편집</el-button>
+        <el-button key="btn_2" type="primary" @click="handleOpenFormDialog({ title: '아이템' })"
           >추가</el-button
         >
       </template>
       <template v-else>
-        <el-button type="default" @click="handleToggleEditMode">취소</el-button>
-        <el-button type="danger">삭제</el-button>
-        <el-button type="primary">이동</el-button>
+        <el-button key="btn_3" type="default" @click="handleToggleEditMode">취소</el-button>
+        <el-button
+          key="btn_4"
+          type="danger"
+          :disabled="selectedItem.length < 1"
+          @click="handleClickDeleteItem"
+          >삭제 ({{ selectedItem.length }})</el-button
+        >
+        <el-button key="btn_5" type="primary" :disabled="selectedItem.length < 1"
+          >이동 ({{ selectedItem.length }})</el-button
+        >
       </template>
       <el-select
         v-model="searchFilter.itemCategoryId"
@@ -58,7 +66,12 @@
                 circle
                 @click="handleOpenFormDialog({ title: '아이템', id: item.itemId })"
               />
-              <el-button icon="el-icon-delete" type="danger" circle />
+              <el-button
+                icon="el-icon-delete"
+                type="danger"
+                circle
+                @click="handleClickDeleteItem([item.itemId])"
+              />
             </div>
           </div>
         </el-card>
@@ -170,6 +183,25 @@ export default {
       if (reset) {
         this.getListSearch()
       }
+    },
+    handleClickDeleteItem(item = []) {
+      this.$confirm(
+        `${item.length > 0 ? '해당 아이템' : '선택된 아이템들'}을 삭제 하시겠습니까?`,
+        '삭제',
+        {
+          confirmButtonText: '삭제',
+          cancelButtonText: '취소',
+          type: 'error',
+        },
+      )
+        .then(() => {
+          if (item.length > 0) {
+            // 아이템 삭제
+          } else {
+            // 멀티 아이템 삭제
+          }
+        })
+        .catch(() => {})
     },
   },
 }
