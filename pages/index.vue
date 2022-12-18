@@ -4,7 +4,7 @@
       <h1 class="font-size-32">POC TOY PROJECT - 2022 빌드테스트</h1>
       <div class="link-wrap">
         <poc-button @click="pageMove('admin')"> admin </poc-button>
-        <poc-button color="gray" class="mg-l-6" @click="pageMove('front')"> front </poc-button>
+        <poc-button color="gray" class="mg-l-6" @click="pageMove('front/easy')"> front </poc-button>
       </div>
     </div>
     <div ref="test" class="test mg-y-8">

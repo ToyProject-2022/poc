@@ -12,9 +12,5 @@ Object.keys(rules).forEach((rule) => {
 
 extend('required', {
   // eslint-disable-next-line no-undef
-  message: '{_field_} 은(는) 반드시 입력해야 합니다',
-})
-extend('email', {
-  // eslint-disable-next-line no-undef
-  message: '{_field_} 이메일 형식이 아닙니다',
+  message: '{_field_}은(는) 반드시 입력해야 합니다',
 })

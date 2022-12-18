@@ -25,7 +25,10 @@
       </header>
 
       <div class="canvas-wrap">
-        <poc-canvas :color="colors" />
+        <div ref="item">
+          <img :src="item.face" alt="2" style="max-width: 360px; height: 360px; margin: 0 auto" />
+        </div>
+        <poc-canvas v-if="false" :color="colors" />
         <!--    <client-only>-->
         <!--      <chrome-picker :value="colors" class="colorPicker" @input="updateValue" />-->
         <!--    </client-only>-->
@@ -42,7 +45,7 @@
             ></span>
           </template>
 
-          <span class="random" @click="handleClickRandom"></span>
+          <span class="random" @click="handleClickColorPicker"></span>
         </div>
         <template v-for="item in tabs">
           <Tab
@@ -52,7 +55,7 @@
             :selected="item.selected"
           >
             <div v-for="face in item_list" :key="face.itemID">
-              <div class="item-box" @click="handleClickItem(item)">
+              <div class="item-box" @click="handleClickItem(face)">
                 <img :src="face.fileUrl" :alt="face.itemCatrgory" />
               </div>
             </div>
@@ -65,23 +68,29 @@
       <div class="form-container">
         <ValidationObserver ref="validator">
           <form @submit.prevent="handleSubmit">
-            <ValidationProvider ref="name" v-slot="{ errors }" rules="required|email">
+            <ValidationProvider ref="name" v-slot="{ errors }" name="이름" rules="required">
               <poc-input v-model="form.name" label="이름" type="text" />
               <span class="valid-message">{{ errors[0] }}</span>
             </ValidationProvider>
             <br />
             <br />
-            <ValidationProvider ref="name" v-slot="{ errors }" rules="required" class="mg-t-15">
+            <ValidationProvider
+              ref="name"
+              v-slot="{ errors }"
+              name="소속팀"
+              rules="required"
+              class="mg-t-15"
+            >
               <poc-input v-model="form.team" label="소속팀" type="text" />
               <span class="valid-message">{{ errors[0] }}</span>
             </ValidationProvider>
             <br />
             <br />
-            <ValidationProvider ref="duty" v-slot="{ errors }" rules="required">
+            <ValidationProvider ref="duty" v-slot="{ errors }" name="직무" rules="required">
               <poc-input v-model="form.duty" label="직무" type="text" />
               <span class="valid-message">{{ errors[0] }}</span>
             </ValidationProvider>
-            <poc-button @click="handleSubmit">버툰</poc-button>
+            <poc-button class="width-full" @click="handleSubmit">완성하기</poc-button>
           </form>
         </ValidationObserver>
       </div>
@@ -117,6 +126,10 @@ export default {
         team: '',
         duty: '',
       },
+      item: {
+        face: 'https://springboot-webservice-poc.s3.ap-northeast-2.amazonaws.com/poc/8ae4dbb1-8ed5-4efa-96a0-270c994e176d-test_image.svg',
+        zindex: 0,
+      },
       itemCategoryId: 1,
     }
   },
@@ -138,6 +151,9 @@ export default {
     },
     handleClickItem(item) {
       console.log(item)
+      this.item.face = item.fileUrl
+      console.log('222', this.item.face)
+      this.item.zindex = item.zindex
     },
     handleSubmit() {
       const { validator } = this.$refs
@@ -191,6 +207,7 @@ export default {
     handleClickReset() {
       alert('초기화')
     },
+    handleClickColorPicker() {},
   },
 }
 </script>
