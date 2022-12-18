@@ -1,8 +1,6 @@
 <template>
-  <div class="app">
-    <div class="front-container">
-      <nuxt />
-    </div>
+  <div class="front">
+    <nuxt />
   </div>
 </template>
 
@@ -12,3 +10,4 @@ export default {
   methods: {},
 }
 </script>
+<style lang="scss"></style>
