@@ -3,13 +3,8 @@
     <div class="poc-card">
       <h1 class="font-size-32">POC TOY PROJECT - 2022 빌드테스트</h1>
       <div class="link-wrap">
-        <!--        <span><nuxt-link to="admin">Admin</nuxt-link></span>-->
         <poc-button @click="pageMove('admin')"> admin </poc-button>
-        <poc-button color="gray" class="mg-l-6" @click="pageMove('front/btte')"> 원경 </poc-button>
-        <poc-button color="gray" class="mg-l-6" @click="pageMove('front/oneway')">
-          도걸
-        </poc-button>
-        <poc-button color="gray" class="mg-l-6" @click="pageMove('front/easy')"> 지현 </poc-button>
+        <poc-button color="gray" class="mg-l-6" @click="pageMove('front')"> front </poc-button>
       </div>
     </div>
     <div ref="test" class="test mg-y-8">

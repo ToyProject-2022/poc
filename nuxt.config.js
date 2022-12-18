@@ -1,3 +1,5 @@
+// eslint-disable-next-line nuxt/no-cjs-in-config
+const path = require('path')
 export default {
   head: {
     title: 'poc-nuxt',
@@ -25,6 +27,7 @@ export default {
   plugins: [
     { src: '@/plugins/element-ui' },
     { src: '@/plugins/validation', ssr: true },
+    { src: '@/icons/index', mode: 'client' },
     { src: '@/plugins/color-picker', mode: 'client' },
     { src: '@/plugins/inject/_canvas', mode: 'client' },
     { src: '@/plugins/inject/_cookie' },
@@ -77,5 +80,19 @@ export default {
       ({ isDev, isLegacy }) => isDev && isLegacy && 'ansi-regex',
       ({ isDev, isLegacy }) => isDev && isLegacy && 'strip-ansi',
     ],
+    extend(config) {
+      const svgRule = config.module.rules.find((rule) => rule.test.test('.svg'))
+      svgRule.exclude = [path.resolve(__dirname, 'icons')]
+      config.module.rules.push({
+        test: /\.svg$/,
+        include: [path.resolve(__dirname, 'icons')],
+        loader: 'svg-sprite-loader',
+        options: {
+          symbolId: 'icon-[name]',
+        },
+      })
+      /* runtime config - toast-ui-chart */
+      config.resolve.alias.vue = 'vue/dist/vue.common'
+    },
   },
 }

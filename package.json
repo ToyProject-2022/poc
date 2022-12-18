@@ -41,7 +41,9 @@
     "eslint-plugin-vue": "^9.5.1",
     "prettier": "^2.7.1",
     "sass": "^1.56.1",
-    "sass-loader": "^7.2.0"
+    "sass-loader": "^7.2.0",
+    "svg-sprite-loader": "^6.0.11",
+    "svgo": "^2.8.0"
   },
   "browserslist": [
     ">0.3%",

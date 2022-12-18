@@ -5,7 +5,9 @@ export default ({ $axios, store }, inject) => {
   _axios.setHeader('Expires', '0')
 
   _axios.onRequest((config) => {
-    store._vm.$nuxt.$loading.start()
+    if (process.client) {
+      store._vm.$nuxt.$loading.start()
+    }
     config.paramsSerializer = (paramObj) => {
       const params = new URLSearchParams()
       for (const key in paramObj) {
@@ -25,11 +27,16 @@ export default ({ $axios, store }, inject) => {
   })
 
   _axios.onResponse((response) => {
-    store._vm.$nuxt.$loading.finish()
+    if (process.client) {
+      store._vm.$nuxt.$loading.finish()
+    }
+
     return response
   })
   _axios.onError((error) => {
-    store._vm.$nuxt.$loading.finish()
+    if (process.client) {
+      store._vm.$nuxt.$loading.start()
+    }
     if (error && error.response) {
       if (error.response.status === 400) {
         return Promise.resolve(false)
