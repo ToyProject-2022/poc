@@ -6,7 +6,7 @@
     width="432px"
     :before-close="handleClose"
   >
-    <el-form ref="form" :model="form" :disabled="id > 0" @submit.native.prevent>
+    <el-form ref="form" :model="form" @submit.native.prevent>
       <el-form-item
         prop="file"
         :rules="{
@@ -54,7 +54,7 @@
     </el-form>
     <div slot="footer" class="dialog-footer text-center">
       <el-button @click="handleClose">취소</el-button>
-      <el-button v-if="id < 1" type="primary" @click="handleSubmit">{{ submitText }}</el-button>
+      <el-button type="primary" @click="handleSubmit">{{ submitText }}</el-button>
     </div>
 
     <input
@@ -202,21 +202,54 @@ export default {
       this.$emit('handleClose', reset === true)
     },
     async handleSubmit() {
-      const fileAxios = this.$_axios
-      fileAxios.setHeader('Content-Type', 'multipart/form-data', ['post'])
-      const data = new FormData()
-      data.append('itemCategoryId', this.form.itemCategoryId)
-      data.append('file', this.form.file)
-      const result = await fileAxios.$post('/poc/v1/item', data)
-      if (result) {
-        this.$message.closeAll()
-        this.$message({
-          showClose: true,
-          message: `'${this.form.file.name}' ${this.title} ${this.submitText} 완료되었습니다`,
-          type: 'error',
-          duration: 3000,
+      if (this.id > 0) {
+        const result = await this.$_axios.$put('/poc/v1/item', {
+          itemCategoryId: this.form.itemCategoryId,
+          itemIdList: [this.id],
         })
-        this.handleClose(true)
+        if (result) {
+          this.$message.closeAll()
+          this.$message({
+            showClose: true,
+            message: `아이템 수정이 완료되었습니다`,
+            type: 'success',
+            duration: 3000,
+          })
+          this.handleClose(true)
+        } else {
+          this.$message.closeAll()
+          this.$message({
+            showClose: true,
+            message: `아이템 수정에 실패하였습니다`,
+            type: 'error',
+            duration: 3000,
+          })
+        }
+      } else {
+        const fileAxios = this.$_axios
+        fileAxios.setHeader('Content-Type', 'multipart/form-data', ['post'])
+        const data = new FormData()
+        data.append('itemCategoryId', this.form.itemCategoryId)
+        data.append('file', this.form.file)
+        const result = await fileAxios.$post('/poc/v1/item', data)
+        if (result) {
+          this.$message.closeAll()
+          this.$message({
+            showClose: true,
+            message: `'${this.form.file.name}' ${this.title} ${this.submitText} 완료되었습니다`,
+            type: 'success',
+            duration: 3000,
+          })
+          this.handleClose(true)
+        } else {
+          this.$message.closeAll()
+          this.$message({
+            showClose: true,
+            message: `아이템 저장에 실패하였습니다`,
+            type: 'error',
+            duration: 3000,
+          })
+        }
       }
     },
   },

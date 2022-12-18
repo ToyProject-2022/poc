@@ -13,10 +13,14 @@
           key="btn_4"
           type="danger"
           :disabled="selectedItem.length < 1"
-          @click="handleClickDeleteItem"
+          @click="handleClickDeleteItem(selectedItem)"
           >삭제 ({{ selectedItem.length }})</el-button
         >
-        <el-button key="btn_5" type="primary" :disabled="selectedItem.length < 1"
+        <el-button
+          key="btn_5"
+          type="primary"
+          :disabled="selectedItem.length < 1 || searchFilter.itemCategoryId === ''"
+          @click="handleOpenMoveDialog"
           >이동 ({{ selectedItem.length }})</el-button
         >
       </template>
@@ -57,7 +61,7 @@
           <el-image class="width-260 height-260" :src="item.fileUrl" fit="fit"></el-image>
           <div v-if="!editMode" class="hover-area">
             <div class="pd-x-8 pd-y-8 width-260 text-area">
-              {{ item.originName }}
+              [{{ item.itemCategoryName }}] {{ item.originName }}
             </div>
             <div class="button-area mg-t-16">
               <el-button
@@ -81,20 +85,28 @@
       :id="formDialog.id"
       :visible="formDialog.visible"
       :title="formDialog.title"
-      @handleSubmit="handleSubmitFormDialog"
       @handleClose="handleCloseFormDialog"
     >
       <div></div>
     </component-admin-item-insert>
+
+    <component-admin-item-move
+      :visible="moveDialog.visible"
+      title="일괄 카테고리 변경"
+      :selected-item="selectedItem"
+      :item-category-id="searchFilter.itemCategoryId"
+      @handleClose="handleCloseMoveDialog"
+    />
   </el-container>
 </template>
 
 <script>
 import ComponentAdminItemInsert from '@/components/admin/item/form.vue'
+import ComponentAdminItemMove from '@/components/admin/item/move.vue'
 
 export default {
   name: 'PagesAdminIndexItem',
-  components: { ComponentAdminItemInsert },
+  components: { ComponentAdminItemMove, ComponentAdminItemInsert },
   data() {
     return {
       editMode: false,
@@ -111,6 +123,9 @@ export default {
         visible: false,
         id: 0,
         title: '',
+      },
+      moveDialog: {
+        visible: false,
       },
     }
   },
@@ -174,9 +189,6 @@ export default {
       this.formDialog.id = id
       this.formDialog.visible = true
     },
-    handleSubmitFormDialog() {
-      this.handleCloseFormDialog(true)
-    },
     handleCloseFormDialog(reset) {
       this.formDialog.visible = false
       this.formDialog.title = ''
@@ -184,9 +196,9 @@ export default {
         this.getListSearch()
       }
     },
-    handleClickDeleteItem(item = []) {
+    handleClickDeleteItem(items = []) {
       this.$confirm(
-        `${item.length > 0 ? '해당 아이템' : '선택된 아이템들'}을 삭제 하시겠습니까?`,
+        `${items.length > 0 ? '해당 아이템' : '선택된 아이템들'}을 삭제 하시겠습니까?`,
         '삭제',
         {
           confirmButtonText: '삭제',
@@ -194,14 +206,40 @@ export default {
           type: 'error',
         },
       )
-        .then(() => {
-          if (item.length > 0) {
-            // 아이템 삭제
+        .then(async () => {
+          const deleteObj = {
+            itemIdList: items,
+          }
+          const result = await this.$_axios.$delete('/poc/v1/item', { data: deleteObj })
+          if (!result) {
+            this.$message.closeAll()
+            this.$message({
+              showClose: true,
+              message: '삭제 실패',
+              type: 'error',
+              duration: 3000,
+            })
           } else {
-            // 멀티 아이템 삭제
+            this.$message.closeAll()
+            this.$message({
+              showClose: true,
+              message: '삭제 성공',
+              type: 'success',
+              duration: 3000,
+            })
           }
         })
         .catch(() => {})
+    },
+    handleOpenMoveDialog() {
+      this.moveDialog.visible = true
+    },
+    handleCloseMoveDialog(reset) {
+      this.moveDialog.visible = false
+      if (reset) {
+        this.selectedItem = []
+        this.getListSearch()
+      }
     },
   },
 }

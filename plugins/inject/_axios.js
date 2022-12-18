@@ -34,7 +34,7 @@ export default ({ $axios, store }, inject) => {
       if (error.response.status === 400) {
         return Promise.resolve(false)
       } else {
-        return Promise.resolve(error.response)
+        return Promise.resolve(false)
       }
     } else {
       // 네트웍 에러, cors 에러 등

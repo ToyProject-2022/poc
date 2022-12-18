@@ -2,7 +2,7 @@
   <div class="admin-container">
     <el-container class="width-full height-full">
       <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
-        <el-menu :default-active="default_active_value">
+        <el-menu :default-active="$route.path">
           <el-menu-item
             v-for="menu in menus"
             :key="menu.id"
@@ -31,25 +31,16 @@ export default {
     return {
       default_active_value: '0',
       menus: [
-        { id: '0', title: 'Item', path: '/admin/item', icon: 'el-icon-picture-outline' },
-        { id: '1', title: 'Archive', path: '/admin/archive', icon: 'el-icon-camera' },
+        { id: '/admin/item', title: 'Item', path: '/admin/item', icon: 'el-icon-picture-outline' },
+        { id: '/admin/archive', title: 'Archive', path: '/admin/archive', icon: 'el-icon-camera' },
       ],
     }
   },
-  // mounted() {
-  //   const paths = this.$route.path.split('/')
-  //   const last_path = paths[paths.length - 1]
-  //   if (last_path !== 'admin') {
-  //     const menu = this.menus.filter((menu) => {
-  //       return menu.title.toLowerCase() === paths[paths.length - 1].toLowerCase()
-  //     })
-  //     this.default_active_value = menu[0].id
-  //     this.handleClickItem(menu[0])
-  //   } else {
-  //     this.default_active_value = this.menus[0].id
-  //     this.handleClickItem(this.menus[0])
-  //   }
-  // },
+  mounted() {
+    if (this.$route.path === '/admin') {
+      this.$router.replace('/admin/item')
+    }
+  },
   methods: {
     handleClickItem(item) {
       this.$router.push(item.path)

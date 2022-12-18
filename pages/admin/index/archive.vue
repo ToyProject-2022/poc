@@ -6,6 +6,7 @@
         class="width-300"
         placeholder="이름, 직무등을 검색하세요"
         clearable
+        @keyup.enter.native="getListSearch"
       >
         <i slot="prefix" class="el-input__icon el-icon-search"></i
       ></el-input>
@@ -31,24 +32,29 @@
       <div class="flex y-start x-start flex-wrap">
         <el-card
           v-for="item in list"
-          :key="item.itemId"
+          :key="item.archiveId"
           :body-style="{ padding: '0px', width: '260px', height: '260px' }"
           class="mg-x-8 mg-y-8 text-center item"
-          :class="[{ 'is-selected': selectedItem.includes(item.itemId) }]"
-          @click.native="handleClickEditModeCard(item.itemId)"
+          :class="[{ 'is-selected': selectedItem.includes(item.archiveId) }]"
+          @click.native="handleClickEditModeCard(item.archiveId)"
         >
           <el-image class="width-260 height-260" :src="item.fileUrl" fit="fit"></el-image>
           <div v-if="!editMode" class="hover-area">
             <div class="pd-x-8 pd-y-8 width-260 text-area">
-              {{ item.originName }}
+              {{ `${item.team}_${item.position}_${item.name}` }}
             </div>
             <div class="button-area mg-t-16">
-              <el-button icon="el-icon-download" type="primary" circle />
+              <el-button
+                icon="el-icon-download"
+                type="primary"
+                circle
+                @click="handleClickDownload(item)"
+              />
               <el-button
                 icon="el-icon-delete"
                 type="danger"
                 circle
-                @click="handleClickDeleteItem([item.itemId])"
+                @click="handleClickDeleteItem([item.archiveId])"
               />
             </div>
           </div>
@@ -68,7 +74,6 @@ export default {
       totalCount: 0,
       selectedItem: [],
       searchFilter: {
-        itemCategory: '',
         size: 10,
         page: 1,
         searchKeyword: '',
@@ -91,8 +96,7 @@ export default {
       this.getList()
     },
     async getList() {
-      // TODO. archive getList api 필요
-      const result = await this.$_axios.$get('/poc/v1/item', {
+      const result = await this.$_axios.$get('/poc/v1/archive', {
         params: this.searchFilter,
       })
       if (result) {
@@ -130,6 +134,15 @@ export default {
           this.selectedItem.push(itemId)
         }
       }
+    },
+    handleClickDownload(item) {
+      // const url = window.URL.createObjectURL(new Blob([this.file_blob_mixin]))
+      const link = document.createElement('a')
+      link.href = item.fileUrl
+      link.setAttribute('download', item.originName)
+      document.body.appendChild(link)
+      link.click()
+      document.body.removeChild(link)
     },
     handleClickDeleteItem(item = []) {
       this.$confirm(
