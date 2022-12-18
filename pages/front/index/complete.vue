@@ -1,40 +1,36 @@
 <template>
   <div class="easy-container">
-    <div class="container">
-      <header class="header">
-        <div>
-          <poc-button color="gray" type="icon" class="mg-r-8">
-            <svg-icon icon-class="dice" style="font-size: 20px" />
-          </poc-button>
-          <poc-button color="gray" type="icon" class="mg-r-8">
-            <svg-icon icon-class="reset" style="font-size: 20px" />
-          </poc-button>
-        </div>
-        <div>
-          <poc-button color="gray" type="icon">
-            <svg-icon icon-class="arrow-right" style="font-size: 20px" />
-          </poc-button>
-        </div>
-      </header>
-
-      <div class="canvas-wrap">
-        <poc-canvas :color="colors" />
-        <!--    <client-only>-->
-        <!--      <chrome-picker :value="colors" class="colorPicker" @input="updateValue" />-->
-        <!--    </client-only>-->
+    <header class="header">
+      <div>
+        <poc-button color="gray" type="icon">
+          <svg-icon icon-class="dice" style="font-size: 20px" />
+        </poc-button>
+        <poc-button color="gray" type="icon">
+          <svg-icon icon-class="reset" style="font-size: 20px" />
+        </poc-button>
+        <poc-button color="gray" type="icon">
+          <svg-icon icon-class="arrow-left" style="font-size: 20px" />
+        </poc-button>
       </div>
+      <div>
+        <poc-button color="gray" type="icon">
+          <svg-icon icon-class="arrow-right" style="font-size: 20px" />
+        </poc-button>
+      </div>
+    </header>
+
+    <div class="canvas-wrap">
+      <poc-canvas v-if="false" :color="colors" />
+      <!--    <client-only>-->
+      <!--      <chrome-picker :value="colors" class="colorPicker" @input="updateValue" />-->
+      <!--    </client-only>-->
     </div>
     <Tabs @handleChange="getListSearch">
       <div class="default-color">
-        <template v-for="color in default_colors">
-          <span
-            :key="color"
-            :style="{ 'background-color': color }"
-            @click="handleChangeColor(color)"
-          ></span>
-        </template>
-
-        <span class="random" @click="handleClickRandom"></span>
+        <div v-for="color in default_colors" :key="color">
+          <span :style="{ 'background-color': color }" @click="handleChangeColor(color)"></span>
+        </div>
+        <div>랜덤</div>
       </div>
       <template v-for="item in tabs">
         <Tab :key="item.itemCategoryId" :name="item.name" :selected="item.selected">
@@ -56,14 +52,15 @@ import Tab from '@/components/easy/tab/tab'
 import SvgIcon from '@/components/svgIcon'
 import PocButton from '@/components/button'
 export default {
-  name: 'FrontIndex',
+  name: 'FrontEasy',
   components: { PocButton, SvgIcon, PocCanvas, Tabs, Tab },
   layout: 'front',
   data() {
     return {
       colors: '#194d33',
       default_colors: ['#ffffff', '#fff6f4', '#feeae3', '#f8cec3', '#d9b5a8', '#bd9f97'],
-      item_list: [],
+      face_list: null,
+      item_list: '',
       tabs: [],
       default_tab_id: 1,
       search_filter: {
@@ -113,16 +110,22 @@ export default {
         })
         .then((response) => {
           this.item_list = response.contents
+          // console.log('111', this.item_list)
         })
         .catch((error) => {
           console.error(error)
         })
     },
-    handleClickRandom() {},
   },
 }
 </script>
 <style lang="scss">
+.canvas-wrap {
+  position: absolute;
+  padding-bottom: 360px;
+  width: 100%;
+  background-color: #9b9b9b;
+}
 .tabs {
   position: absolute;
   top: 360px;
@@ -130,9 +133,26 @@ export default {
   right: 0;
 }
 .tabs-details {
+  height: calc(100vh - 400px);
   overflow: scroll;
   position: relative;
-  top: 40px;
-  height: calc(100vh - 400px);
+  top: 400px;
+}
+.default-color {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  overflow-x: auto;
+  > div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  span {
+    width: 20px;
+    height: 20px;
+    display: inline-flex;
+    border-radius: 100%;
+    border: 1px solid #ddd;
+  }
 }
 </style>

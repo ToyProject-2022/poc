@@ -1,6 +1,6 @@
 <template>
   <div>
-    <canvas ref="canvas" width="200" height="200" class="canvas" />
+    <canvas ref="canvas" width="360" height="360" class="canvas" />
   </div>
 </template>
 
@@ -28,8 +28,3 @@ export default {
   },
 }
 </script>
-<style scoped>
-.canvas {
-  border: 1px solid #000;
-}
-</style>

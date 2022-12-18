@@ -26,7 +26,6 @@ export default {
     }
   },
   created() {
-    console.log('children', this.$children)
     this.tabs = this.$children
   },
   methods: {
@@ -34,6 +33,10 @@ export default {
       this.tabs.forEach((tab) => {
         tab.is_active = tab.name === selectedTab.name
       })
+      this.handleClick(selectedTab)
+    },
+    handleClick(selectedTab) {
+      this.$emit('handleChange', selectedTab)
     },
   },
 }
@@ -42,7 +45,7 @@ export default {
 <style lang="scss">
 .tabs {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
   overflow-x: auto;
   background-color: #fff;
   .tab-item {
@@ -67,10 +70,10 @@ export default {
     }
 
     &.is-active {
-      color: cornflowerblue;
+      color: #6787ff;
 
       &::before {
-        background-color: cornflowerblue;
+        background-color: #6787ff;
       }
     }
   }

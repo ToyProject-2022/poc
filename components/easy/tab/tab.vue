@@ -1,5 +1,5 @@
 <template>
-  <div v-show="is_active">
+  <div v-if="is_active">
     <slot></slot>
   </div>
 </template>
@@ -8,10 +8,9 @@
 export default {
   name: 'PocTab',
   props: {
-    name: { required: true },
-    selected: { default: false },
+    name: { type: String, required: true },
+    selected: { type: Boolean, default: false },
   },
-  // transition: "faker",
   data: () => {
     return {
       is_active: false,
@@ -20,6 +19,7 @@ export default {
   mounted() {
     this.is_active = this.selected
   },
+  methods: {},
 }
 </script>
 
