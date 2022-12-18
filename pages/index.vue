@@ -5,6 +5,9 @@
       <div class="link-wrap">
         <poc-button @click="pageMove('admin')"> admin </poc-button>
         <poc-button color="gray" class="mg-l-6" @click="pageMove('front/easy')"> front </poc-button>
+        <poc-button color="gray" class="mg-l-6" @click="pageMove('front/oneway')">
+          front oneway
+        </poc-button>
       </div>
     </div>
     <div ref="test" class="test mg-y-8">

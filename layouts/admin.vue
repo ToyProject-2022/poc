@@ -25,11 +25,3 @@ export default {
   },
 }
 </script>
-<style lang="scss">
-.admin {
-  min-width: 768px;
-  * {
-    box-sizing: border-box;
-  }
-}
-</style>
