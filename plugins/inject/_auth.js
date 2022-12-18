@@ -3,15 +3,10 @@ export default ({ app, store, route, redirect }, inject) => {
     async _init() {
       if (!store.getters['app/first_loading']) {
         if (await this._checkAuth()) {
-          console.log('1')
           if (route.path.includes('/admin/auth')) {
-            console.log('11')
             await redirect('/admin')
-          } else {
-            console.log('111')
           }
         } else {
-          console.log('2')
           await redirect('/admin/auth/login')
         }
         await store.dispatch('app/setFirstLoading', true)
@@ -29,7 +24,6 @@ export default ({ app, store, route, redirect }, inject) => {
         const member = { memberId: result.memberId, email: result.email, expires: expires_at }
         app.$_cookie._setObjectOption('_m', member, { expires: 1 / 24 })
         await store.dispatch('auth/setMember', member)
-        await redirect('/admin')
         return true
       } else {
         app.$_cookie._remove('_m')

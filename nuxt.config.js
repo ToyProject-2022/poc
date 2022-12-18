@@ -18,7 +18,7 @@ export default {
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
   },
   css: [
-    'normalize.css',
+    'pretendard/dist/web/static/pretendard.css',
     { src: '@/styles/import.scss', lang: 'scss' },
     'element-ui/lib/theme-chalk/index.css',
   ],

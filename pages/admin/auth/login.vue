@@ -116,6 +116,7 @@ export default {
             type: 'success',
             duration: 3000,
           })
+          await this.$router.push('/admin')
         }
       }
     },
