@@ -3,7 +3,7 @@
     <el-card class="width-500">
       <el-row>
         <el-col>
-          <el-link icon="el-icon-arrow-left" @click="$router.push('/admin/login')"
+          <el-link icon="el-icon-arrow-left" @click="$router.push('/admin/auth/login')"
             >뒤로가기</el-link
           >
         </el-col>
@@ -111,7 +111,7 @@ export default {
             type: 'success',
             duration: 3000,
           })
-          await this.$router.push('/admin/login')
+          await this.$router.push('/admin/auth/login')
         } else {
           this.$message.closeAll()
           this.$message({

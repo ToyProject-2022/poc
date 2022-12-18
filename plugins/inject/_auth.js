@@ -3,9 +3,16 @@ export default ({ app, store, route, redirect }, inject) => {
     async _init() {
       if (!store.getters['app/first_loading']) {
         if (await this._checkAuth()) {
-          await redirect('/admin')
+          console.log('1')
+          if (route.path.includes('/admin/auth')) {
+            console.log('11')
+            await redirect('/admin')
+          } else {
+            console.log('111')
+          }
         } else {
-          await redirect('/admin/login')
+          console.log('2')
+          await redirect('/admin/auth/login')
         }
         await store.dispatch('app/setFirstLoading', true)
       }
@@ -19,7 +26,7 @@ export default ({ app, store, route, redirect }, inject) => {
       })
       if (result) {
         const expires_at = app.$dayjs().add(1, 'hour').valueOf()
-        const member = { member_id: result.memberId, email: result.email, expires: expires_at }
+        const member = { memberId: result.memberId, email: result.email, expires: expires_at }
         app.$_cookie._setObjectOption('_m', member, { expires: 1 / 24 })
         await store.dispatch('auth/setMember', member)
         await redirect('/admin')
@@ -33,7 +40,7 @@ export default ({ app, store, route, redirect }, inject) => {
     async _logout() {
       app.$_cookie._remove('_m')
       await store.dispatch('auth/resetMember')
-      redirect('/admin/login')
+      await redirect('/admin/auth/login')
     },
     async _checkAuth() {
       const cookie_member = await app.$_cookie._getObject('_m')

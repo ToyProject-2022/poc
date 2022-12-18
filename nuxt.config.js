@@ -50,6 +50,7 @@ export default {
   },
   loading: true,
   router: {
+    middleware: ['router'],
     extendRoutes(routes) {
       routes.push({
         hidden: true,

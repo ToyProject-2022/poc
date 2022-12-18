@@ -36,20 +36,20 @@ export default {
       ],
     }
   },
-  mounted() {
-    const paths = this.$route.path.split('/')
-    const last_path = paths[paths.length - 1]
-    if (last_path !== 'admin') {
-      const menu = this.menus.filter((menu) => {
-        return menu.title.toLowerCase() === paths[paths.length - 1].toLowerCase()
-      })
-      this.default_active_value = menu[0].id
-      this.handleClickItem(menu[0])
-    } else {
-      this.default_active_value = this.menus[0].id
-      this.handleClickItem(this.menus[0])
-    }
-  },
+  // mounted() {
+  //   const paths = this.$route.path.split('/')
+  //   const last_path = paths[paths.length - 1]
+  //   if (last_path !== 'admin') {
+  //     const menu = this.menus.filter((menu) => {
+  //       return menu.title.toLowerCase() === paths[paths.length - 1].toLowerCase()
+  //     })
+  //     this.default_active_value = menu[0].id
+  //     this.handleClickItem(menu[0])
+  //   } else {
+  //     this.default_active_value = this.menus[0].id
+  //     this.handleClickItem(this.menus[0])
+  //   }
+  // },
   methods: {
     handleClickItem(item) {
       this.$router.push(item.path)

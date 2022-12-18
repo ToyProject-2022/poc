@@ -53,7 +53,7 @@
           <el-button class="width-full" type="primary" @click="handleSubmit">로그인</el-button>
         </el-col>
         <el-col class="mg-t-16 text-center">
-          <el-link @click="$router.push('/admin/join')">회원가입</el-link>
+          <el-link @click="$router.push('/admin/auth/join')">회원가입</el-link>
         </el-col>
       </el-row>
     </el-card>
@@ -61,7 +61,7 @@
 </template>
 
 <script>
-import { validEmail, validPassword } from '~/utils/validate'
+import { validEmail, validPassword } from '@/utils/validate'
 
 export default {
   name: 'PagesAdminLogin',

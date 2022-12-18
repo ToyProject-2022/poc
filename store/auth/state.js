@@ -1,6 +1,6 @@
 export default () => ({
   member: {
-    member_id: null,
+    memberId: null,
     email: null,
     expires: 0,
   },

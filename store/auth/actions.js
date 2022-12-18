@@ -1,7 +1,7 @@
 export default {
   resetMember({ commit }) {
     commit('SET_MEMBER', {
-      member_id: null,
+      memberId: null,
       email: null,
       expires: 0,
     })
