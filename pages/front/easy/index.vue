@@ -25,10 +25,20 @@
       </header>
 
       <div class="canvas-wrap">
-        <div ref="item">
-          <img :src="item.face" alt="2" style="max-width: 360px; height: 360px; margin: 0 auto" />
-        </div>
-        <poc-canvas v-if="false" :color="colors" />
+        <!--        <div ref="item">-->
+        <!--          <img-->
+        <!--            :src="item.face"-->
+        <!--            alt="2"-->
+        <!--            :style="{ 'z-index': item.zindex }"-->
+        <!--            style="position: absolute; max-width: 360px; height: 360px; margin: 0 auto"-->
+        <!--          />-->
+        <!--        </div>-->
+        <poc-canvas
+          :color="colors"
+          :face="temp_obj.face"
+          :top="temp_obj.top"
+          :hair="temp_obj.hair"
+        />
         <!--    <client-only>-->
         <!--      <chrome-picker :value="colors" class="colorPicker" @input="updateValue" />-->
         <!--    </client-only>-->
@@ -55,10 +65,15 @@
             :selected="item.selected"
           >
             <div v-for="face in item_list" :key="face.itemID">
-              <div class="item-box" @click="handleClickItem(face)">
+              <div class="item-box" @click="handleClickItemFace(face)">
                 <img :src="face.fileUrl" :alt="face.itemCatrgory" />
               </div>
             </div>
+            <!--            <div v-for="top in top_list" :key="top.itemID">-->
+            <!--              <div class="item-box" @click="handleClickItemTop(top)">-->
+            <!--                <img :src="top.fileUrl" :alt="top.itemCatrgory" />-->
+            <!--              </div>-->
+            <!--            </div>-->
           </Tab>
         </template>
       </Tabs>
@@ -115,6 +130,7 @@ export default {
       colors: '#194d33',
       default_colors: ['#ffffff', '#fff6f4', '#feeae3', '#f8cec3', '#d9b5a8', '#bd9f97'],
       item_list: [],
+      top_list: [],
       tabs: [],
       default_tab_id: 1,
       search_filter: {
@@ -126,10 +142,11 @@ export default {
         team: '',
         duty: '',
       },
-      item: {
-        face: 'https://springboot-webservice-poc.s3.ap-northeast-2.amazonaws.com/poc/8ae4dbb1-8ed5-4efa-96a0-270c994e176d-test_image.svg',
-        zindex: 0,
-      },
+      temp_obj: {},
+      // item: {
+      //   face: 'https://springboot-webservice-poc.s3.ap-northeast-2.amazonaws.com/poc/8ae4dbb1-8ed5-4efa-96a0-270c994e176d-test_image.svg',
+      //   top: 'https://springboot-webservice-poc.s3.ap-northeast-2.amazonaws.com/poc/393a79b0-ba5c-4166-9765-9050ea8003e5-clothes_type_1.svg',
+      // },
       itemCategoryId: 1,
     }
   },
@@ -149,11 +166,13 @@ export default {
     nextStep() {
       this.is_next_step = true
     },
-    handleClickItem(item) {
-      console.log(item)
-      this.item.face = item.fileUrl
-      console.log('222', this.item.face)
-      this.item.zindex = item.zindex
+    handleClickItemFace(item) {
+      this.temp_obj = {
+        face: item.fileUrl,
+        hair: item.fileUrl,
+        top: item.fileUrl,
+      }
+      // this.item.face = item.fileUrl
     },
     handleSubmit() {
       const { validator } = this.$refs
